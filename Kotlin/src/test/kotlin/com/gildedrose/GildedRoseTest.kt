@@ -5,16 +5,23 @@ import org.junit.jupiter.api.Test
 
 internal class GildedRoseTest {
     @Test
-    fun sellIn_is_reduced() {
-        val app = GildedRose(arrayOf(Item("Bean", 2, 10), Item("Corn", 10, 3)))
-        app.updateQuality()
-        assertEquals(1, app.items[0].sellIn)
-        assertEquals(9, app.items[1].sellIn)
+    fun sell_in() {
+        assertSellInAfterOneDayElapsed(
+            Item("Bean", 2, 10),
+            1
+        )
+        assertSellInAfterOneDayElapsed(
+            Item("Bean", 0, 10),
+            -1
+        )
+    }
 
-        app.updateQuality()
-        app.updateQuality()
-        assertEquals(-1, app.items[0].sellIn)
-        assertEquals(7, app.items[1].sellIn)
+    @Test
+    fun sell_in_sulfuras() {
+        assertSellInAfterOneDayElapsed(
+            Item("Sulfuras, Hand of Ragnaros", 20, 80),
+            20
+        )
     }
 
     @Test
@@ -90,6 +97,12 @@ internal class GildedRoseTest {
         val app = GildedRose(arrayOf(item))
         app.updateQuality()
         assertEquals(newQuality, app.items.first().quality)
+    }
+
+    private fun assertSellInAfterOneDayElapsed(item: Item, newSellIn: Int) {
+        val app = GildedRose(arrayOf(item))
+        app.updateQuality()
+        assertEquals(newSellIn, app.items.first().sellIn)
     }
 
 
