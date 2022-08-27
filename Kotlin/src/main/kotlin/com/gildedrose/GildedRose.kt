@@ -12,7 +12,7 @@ class GildedRose(var items: Array<Item>) {
                 }
             } else {
                 if (item.quality < 50) {
-                    item.quality = item.quality + 1
+                    item.bumpQuality()
 
                     if (item.name == "Backstage passes to a TAFKAL80ETC concert") {
                         updateBackstagePassQuality(item)
@@ -42,22 +42,16 @@ class GildedRose(var items: Array<Item>) {
 
     private fun updateBackstagePassQuality(item: Item) {
         if (item.sellIn < 11) {
-            if (item.quality < 50) {
-                item.quality = item.quality + 1
-            }
+            item.bumpQuality()
         }
 
         if (item.sellIn < 6) {
-            if (item.quality < 50) {
-                item.quality = item.quality + 1
-            }
+            item.bumpQuality()
         }
     }
 
     private fun updateAgedBrieQuality(item: Item) {
-        if (item.quality < 50) {
-            item.quality = item.quality + 1
-        }
+        item.bumpQuality()
     }
 
     private fun updateSellIn(item: Item) {
