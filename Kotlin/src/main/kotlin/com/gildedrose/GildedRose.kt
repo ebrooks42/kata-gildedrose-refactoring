@@ -7,12 +7,12 @@ class GildedRose(var items: Array<Item>) {
             if (item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert") {
                 if (item.quality > 0) {
                     if (item.name != "Sulfuras, Hand of Ragnaros") {
-                        item.quality = item.quality - 1
+                        item.decrementQuality()
                     }
                 }
             } else {
                 if (item.quality < 50) {
-                    item.bumpQuality()
+                    item.incrementQuality()
 
                     if (item.name == "Backstage passes to a TAFKAL80ETC concert") {
                         updateBackstagePassQuality(item)
@@ -27,7 +27,7 @@ class GildedRose(var items: Array<Item>) {
                     if (item.name != "Backstage passes to a TAFKAL80ETC concert") {
                         if (item.quality > 0) {
                             if (item.name != "Sulfuras, Hand of Ragnaros") {
-                                item.quality = item.quality - 1
+                                item.decrementQuality()
                             }
                         }
                     } else {
@@ -42,16 +42,16 @@ class GildedRose(var items: Array<Item>) {
 
     private fun updateBackstagePassQuality(item: Item) {
         if (item.sellIn < 11) {
-            item.bumpQuality()
+            item.incrementQuality()
         }
 
         if (item.sellIn < 6) {
-            item.bumpQuality()
+            item.incrementQuality()
         }
     }
 
     private fun updateAgedBrieQuality(item: Item) {
-        item.bumpQuality()
+        item.incrementQuality()
     }
 
     private fun updateSellIn(item: Item) {

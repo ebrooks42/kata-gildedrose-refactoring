@@ -5,9 +5,15 @@ open class Item(var name: String, var sellIn: Int, var quality: Int) {
         return this.name + ", " + this.sellIn + ", " + this.quality
     }
 
-    fun bumpQuality() {
+    fun incrementQuality() {
         if (quality < 50) {
             quality += 1
+        }
+    }
+    
+    fun decrementQuality() {
+        if (quality > 0) {
+            quality -= 1
         }
     }
 }
