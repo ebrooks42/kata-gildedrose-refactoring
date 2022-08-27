@@ -20,7 +20,7 @@ class GildedRose(var items: Array<Item>) {
                 }
             }
 
-            updateSellIn(item)
+            item.updateSellIn()
 
             if (item.sellIn < 0) {
                 if (item.name != "Aged Brie") {
@@ -52,12 +52,6 @@ class GildedRose(var items: Array<Item>) {
 
     private fun updateAgedBrieQuality(item: Item) {
         item.incrementQuality()
-    }
-
-    private fun updateSellIn(item: Item) {
-        if (item.name != "Sulfuras, Hand of Ragnaros") {
-            item.sellIn = item.sellIn - 1
-        }
     }
 
 }

@@ -5,6 +5,12 @@ open class Item(var name: String, var sellIn: Int, var quality: Int) {
         return this.name + ", " + this.sellIn + ", " + this.quality
     }
 
+    fun updateSellIn() {
+        if (name != "Sulfuras, Hand of Ragnaros") {
+            sellIn -= 1
+        }
+    }
+
     fun incrementQuality() {
         if (quality < 50) {
             quality += 1
