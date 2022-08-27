@@ -11,13 +11,13 @@ open class Item(var name: String, var sellIn: Int, var quality: Int) {
         }
     }
 
-    fun incrementQuality() {
+    fun incrementQualityButNoFurtherThanFifty() {
         if (quality < 50) {
             quality += 1
         }
     }
     
-    fun decrementQuality() {
+    fun decrementQualityButNoFurtherThanZero() {
         if (quality > 0) {
             quality -= 1
         }
