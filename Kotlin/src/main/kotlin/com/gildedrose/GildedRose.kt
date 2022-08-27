@@ -19,16 +19,14 @@ class GildedRose(var items: Array<Item>) {
             item.updateSellIn()
 
             if (item.sellIn < 0) {
-                if (item.name != "Aged Brie") {
-                    if (item.name != "Backstage passes to a TAFKAL80ETC concert") {
-                        if (item.name != "Sulfuras, Hand of Ragnaros") {
-                            item.decrementQuality()
-                        }
-                    } else {
-                        item.quality = 0
-                    }
+                if (item.name == "Aged Brie") {
+                    item.incrementQuality()
+                } else if (item.name == "Backstage passes to a TAFKAL80ETC concert") {
+                    item.quality = 0
                 } else {
-                    updateAgedBrieQuality(item)
+                    if (item.name != "Sulfuras, Hand of Ragnaros") {
+                        item.decrementQuality()
+                    }
                 }
             }
         }
@@ -43,10 +41,5 @@ class GildedRose(var items: Array<Item>) {
             item.incrementQuality()
         }
     }
-
-    private fun updateAgedBrieQuality(item: Item) {
-        item.incrementQuality()
-    }
-
 }
 
