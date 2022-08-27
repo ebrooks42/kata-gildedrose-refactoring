@@ -16,9 +16,7 @@ class GildedRose(var items: Array<Item>) {
             if (item.sellIn < 0) {
                 when (item.name) {
                     "Aged Brie" -> item.incrementQualityButNoFurtherThanFifty()
-                    "Backstage passes to a TAFKAL80ETC concert" -> {
-                        item.quality = 0
-                    }
+                    "Backstage passes to a TAFKAL80ETC concert" -> item.quality = 0
                     "Sulfuras, Hand of Ragnaros" -> { /* quality does not decay */ }
                     else -> item.decrementQualityButNoFurtherThanZero()
                 }
