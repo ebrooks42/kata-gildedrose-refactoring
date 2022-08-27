@@ -7,11 +7,8 @@ class GildedRose(var items: Array<Item>) {
             when (item.name) {
                 "Backstage passes to a TAFKAL80ETC concert" -> bumpNonExpiredBackstagePassQuality(item)
                 "Aged Brie" -> item.incrementQualityButNoFurtherThanFifty()
-                else -> {
-                    if (item.name != "Sulfuras, Hand of Ragnaros") {
-                        item.decrementQualityButNoFurtherThanZero()
-                    }
-                }
+                "Sulfuras, Hand of Ragnaros" -> { /* quality does not decay */ }
+                else -> item.decrementQualityButNoFurtherThanZero()
             }
 
             item.updateSellIn()
@@ -22,11 +19,8 @@ class GildedRose(var items: Array<Item>) {
                     "Backstage passes to a TAFKAL80ETC concert" -> {
                         item.quality = 0
                     }
-                    else -> {
-                        if (item.name != "Sulfuras, Hand of Ragnaros") {
-                            item.decrementQualityButNoFurtherThanZero()
-                        }
-                    }
+                    "Sulfuras, Hand of Ragnaros" -> { /* quality does not decay */ }
+                    else -> item.decrementQualityButNoFurtherThanZero()
                 }
             }
         }
