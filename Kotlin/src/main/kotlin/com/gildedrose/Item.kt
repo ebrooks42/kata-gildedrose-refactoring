@@ -1,32 +1,35 @@
 package com.gildedrose
 
-open class Item(var name: String, var sellIn: Int, var quality: Int) {
-    override fun toString(): String {
-        return this.name + ", " + this.sellIn + ", " + this.quality
+interface Updateable {
+    fun updateSellIn()
+    fun updateQuality()
+}
+
+class Sulfuras(sellIn: Int) : Item("Sulfuras, Hand of Ragnaros", sellIn, 80) {
+    override fun updateSellIn() = Unit // does not expire
+    override fun updateQuality() = Unit // does not decay
+}
+
+class AgedBrie(sellIn: Int, quality: Int) : Item("Aged Brie", sellIn, quality) {
+    override fun updateSellIn() {
+        sellIn -= 1
     }
 
-    fun updateSellIn() {
-        when (name) {
-            "Sulfuras, Hand of Ragnaros" -> Unit // sell date does not change/expire
-            else -> sellIn -= 1
+    override fun updateQuality() {
+        incrementQualityButNoFurtherThanFifty()
+        if (isExpired()) {
+            incrementQualityButNoFurtherThanFifty()
         }
     }
+}
 
-    fun updateQuality() {
-        when (name) {
-            "Backstage passes to a TAFKAL80ETC concert" -> updateQualityForBackstagePass()
-            "Aged Brie" -> updateQualityForAgedBrie()
-            "Sulfuras, Hand of Ragnaros" -> updateQualityForSulfuras()
-            else -> updateQualityForAllOtherItems()
-        }
+class BackstagePass(sellIn: Int, quality: Int) :
+    Item("Backstage passes to a TAFKAL80ETC concert", sellIn, quality) {
+    override fun updateSellIn() {
+        sellIn -= 1
     }
 
-    private fun isExpired() = sellIn < 0
-
-    private fun updateQualityForSulfuras() {
-        // intentionally do nothing
-    }
-    private fun updateQualityForBackstagePass() {
+    override fun updateQuality() {
         if (isExpired()) {
             quality = 0
             return
@@ -40,28 +43,34 @@ open class Item(var name: String, var sellIn: Int, var quality: Int) {
             incrementQualityButNoFurtherThanFifty()
         }
     }
+}
 
-    private fun updateQualityForAgedBrie() {
-        incrementQualityButNoFurtherThanFifty()
-        if (isExpired()) {
-            incrementQualityButNoFurtherThanFifty()
-        }
+class DefaultItem(name: String, sellIn: Int, quality: Int) : Item(name, sellIn, quality) {
+    override fun updateSellIn() {
+        sellIn -= 1
     }
 
-    private fun updateQualityForAllOtherItems() {
+    override fun updateQuality() {
         decrementQualityButNoFurtherThanZero()
         if (isExpired()) {
             decrementQualityButNoFurtherThanZero()
         }
     }
+}
 
-    private fun incrementQualityButNoFurtherThanFifty() {
+abstract class Item(var name: String, var sellIn: Int, var quality: Int) : Updateable {
+    override fun toString(): String {
+        return this.name + ", " + this.sellIn + ", " + this.quality
+    }
+
+    fun isExpired() = sellIn < 0
+
+    protected fun incrementQualityButNoFurtherThanFifty() {
         if (quality < 50) {
             quality += 1
         }
     }
-    
-    private fun decrementQualityButNoFurtherThanZero() {
+    protected fun decrementQualityButNoFurtherThanZero() {
         if (quality > 0) {
             quality -= 1
         }
