@@ -3,9 +3,7 @@ package com.gildedrose
 class GildedRose(var items: Array<Item>) {
 
     fun updateQuality() {
-        for (item in items) {
-            item.updateItemQuality()
-        }
+        items.forEach(Item::updateItemQuality)
     }
 }
 
