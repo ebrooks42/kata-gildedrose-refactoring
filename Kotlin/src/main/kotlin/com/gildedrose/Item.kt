@@ -24,6 +24,13 @@ open class Item(var name: String, var sellIn: Int, var quality: Int) {
         }
     }
 
+    private fun updateSellIn() {
+        when (name) {
+            "Sulfuras, Hand of Ragnaros" -> Unit // sell date does not change/expire
+            else -> sellIn -= 1
+        }
+    }
+
     private fun bumpNonExpiredBackstagePassQuality() {
         incrementQualityButNoFurtherThanFifty()
 
@@ -35,14 +42,6 @@ open class Item(var name: String, var sellIn: Int, var quality: Int) {
             incrementQualityButNoFurtherThanFifty()
         }
     }
-
-    fun updateSellIn() {
-        if (name != "Sulfuras, Hand of Ragnaros") {
-            sellIn -= 1
-        }
-    }
-
-
 
     fun incrementQualityButNoFurtherThanFifty() {
         if (quality < 50) {
