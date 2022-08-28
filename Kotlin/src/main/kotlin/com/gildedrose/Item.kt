@@ -4,13 +4,11 @@ open class Item(var name: String, var sellIn: Int, var quality: Int) {
     override fun toString(): String {
         return this.name + ", " + this.sellIn + ", " + this.quality
     }
-    fun updateItemQuality() {
+    fun updateQuality() {
         when (name) {
             "Backstage passes to a TAFKAL80ETC concert" -> bumpNonExpiredBackstagePassQuality()
             "Aged Brie" -> incrementQualityButNoFurtherThanFifty()
-            "Sulfuras, Hand of Ragnaros" -> { /* quality does not decay */
-            }
-
+            "Sulfuras, Hand of Ragnaros" -> Unit // quality does not change
             else -> decrementQualityButNoFurtherThanZero()
         }
 
@@ -20,9 +18,7 @@ open class Item(var name: String, var sellIn: Int, var quality: Int) {
             when (name) {
                 "Aged Brie" -> incrementQualityButNoFurtherThanFifty()
                 "Backstage passes to a TAFKAL80ETC concert" -> quality = 0
-                "Sulfuras, Hand of Ragnaros" -> { /* quality does not decay */
-                }
-
+                "Sulfuras, Hand of Ragnaros" -> Unit // quality does not change
                 else -> decrementQualityButNoFurtherThanZero()
             }
         }
