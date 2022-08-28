@@ -13,16 +13,8 @@ open class Item(var name: String, var sellIn: Int, var quality: Int) {
             "Sulfuras, Hand of Ragnaros" -> Unit // quality does not change
             else -> updateQualityForAllOtherItems()
         }
-
-        if (sellIn < 0) {
-            when (name) {
-                "Aged Brie" -> incrementQualityButNoFurtherThanFifty()
-                "Backstage passes to a TAFKAL80ETC concert" -> quality = 0
-                "Sulfuras, Hand of Ragnaros" -> Unit // quality does not change
-                else -> decrementQualityButNoFurtherThanZero()
-            }
-        }
     }
+    private fun isExpired() = sellIn < 0
 
     private fun updateSellIn() {
         when (name) {
@@ -32,12 +24,15 @@ open class Item(var name: String, var sellIn: Int, var quality: Int) {
     }
 
     private fun updateQualityForBackstagePass() {
-        incrementQualityButNoFurtherThanFifty()
+        if (isExpired()) {
+            quality = 0
+            return
+        }
 
+        incrementQualityButNoFurtherThanFifty()
         if (sellIn < 11) {
             incrementQualityButNoFurtherThanFifty()
         }
-
         if (sellIn < 6) {
             incrementQualityButNoFurtherThanFifty()
         }
@@ -45,10 +40,16 @@ open class Item(var name: String, var sellIn: Int, var quality: Int) {
 
     private fun updateQualityForAgedBrie() {
         incrementQualityButNoFurtherThanFifty()
+        if (isExpired()) {
+            incrementQualityButNoFurtherThanFifty()
+        }
     }
 
     private fun updateQualityForAllOtherItems() {
         decrementQualityButNoFurtherThanZero()
+        if (isExpired()) {
+            decrementQualityButNoFurtherThanZero()
+        }
     }
 
     private fun incrementQualityButNoFurtherThanFifty() {
