@@ -11,9 +11,6 @@ class Sulfuras(sellIn: Int) : Item("Sulfuras, Hand of Ragnaros", sellIn, 80) {
 }
 
 class AgedBrie(sellIn: Int, quality: Int) : Item("Aged Brie", sellIn, quality) {
-    override fun updateSellIn() {
-        sellIn -= 1
-    }
 
     override fun updateQuality() {
         incrementQualityButNoFurtherThanFifty()
@@ -25,9 +22,6 @@ class AgedBrie(sellIn: Int, quality: Int) : Item("Aged Brie", sellIn, quality) {
 
 class BackstagePass(sellIn: Int, quality: Int) :
     Item("Backstage passes to a TAFKAL80ETC concert", sellIn, quality) {
-    override fun updateSellIn() {
-        sellIn -= 1
-    }
 
     override fun updateQuality() {
         if (isExpired()) {
@@ -46,10 +40,6 @@ class BackstagePass(sellIn: Int, quality: Int) :
 }
 
 class DefaultItem(name: String, sellIn: Int, quality: Int) : Item(name, sellIn, quality) {
-    override fun updateSellIn() {
-        sellIn -= 1
-    }
-
     override fun updateQuality() {
         decrementQualityButNoFurtherThanZero()
         if (isExpired()) {
@@ -63,6 +53,10 @@ abstract class Item(var name: String, var sellIn: Int, var quality: Int) : Updat
         return this.name + ", " + this.sellIn + ", " + this.quality
     }
 
+    override fun updateSellIn() {
+        sellIn -= 1
+    }
+
     fun isExpired() = sellIn < 0
 
     protected fun incrementQualityButNoFurtherThanFifty() {
@@ -70,6 +64,7 @@ abstract class Item(var name: String, var sellIn: Int, var quality: Int) : Updat
             quality += 1
         }
     }
+
     protected fun decrementQualityButNoFurtherThanZero() {
         if (quality > 0) {
             quality -= 1
