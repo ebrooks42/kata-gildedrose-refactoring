@@ -28,11 +28,10 @@ fun main(args: Array<String>) {
         println("-------- day $i --------")
         println("name, sellIn, quality")
         for (item in items) {
-            println(item)
+            println(toCsv(item))
         }
         println()
         app.updateQuality()
     }
-
-
 }
+private fun toCsv(item: IItem) = item.name + ", " + item.sellIn + ", " + item.quality

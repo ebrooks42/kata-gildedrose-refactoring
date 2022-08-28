@@ -31,6 +31,7 @@ internal class GildedRoseTest {
             0
         )
     }
+
     @Test
     fun quality_max() {
         assertQualityAfterOneDayElapsed(
@@ -38,6 +39,7 @@ internal class GildedRoseTest {
             50
         )
     }
+
     @Test
     fun quality_degradation() {
         assertQualityAfterOneDayElapsed(
@@ -104,9 +106,6 @@ internal class GildedRoseTest {
         app.updateQuality()
         assertEquals(newSellIn, app.items.first().sellIn)
     }
-
-
-
 }
 
 

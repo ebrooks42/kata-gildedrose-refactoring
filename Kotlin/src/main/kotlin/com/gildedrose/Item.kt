@@ -1,7 +1,14 @@
 package com.gildedrose
 
-interface Updateable {
-    fun updateSellIn()
+interface IItem {
+    var name: String
+    var sellIn: Int
+    var quality: Int
+
+    fun isExpired() = sellIn < 0
+    fun updateSellIn() {
+        sellIn -= 1
+    }
     fun updateQuality()
 }
 
@@ -11,7 +18,6 @@ class Sulfuras(sellIn: Int) : Item("Sulfuras, Hand of Ragnaros", sellIn, 80) {
 }
 
 class AgedBrie(sellIn: Int, quality: Int) : Item("Aged Brie", sellIn, quality) {
-
     override fun updateQuality() {
         incrementQualityButNoFurtherThanFifty()
         if (isExpired()) {
@@ -48,16 +54,7 @@ class DefaultItem(name: String, sellIn: Int, quality: Int) : Item(name, sellIn, 
     }
 }
 
-abstract class Item(var name: String, var sellIn: Int, var quality: Int) : Updateable {
-    override fun toString(): String {
-        return this.name + ", " + this.sellIn + ", " + this.quality
-    }
-
-    override fun updateSellIn() {
-        sellIn -= 1
-    }
-
-    fun isExpired() = sellIn < 0
+abstract class Item(override var name: String, override var sellIn: Int, override var quality: Int) : IItem {
 
     protected fun incrementQualityButNoFurtherThanFifty() {
         if (quality < 50) {
