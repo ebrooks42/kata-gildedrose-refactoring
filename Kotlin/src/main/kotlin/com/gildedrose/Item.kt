@@ -1,27 +1,15 @@
 package com.gildedrose
 
-interface IItem {
-    var name: String
-    var sellIn: Int
-    var quality: Int
-
-    fun isExpired() = sellIn < 0
-    fun updateSellIn() {
-        sellIn -= 1
-    }
-    fun updateQuality()
-}
-
 class Sulfuras(sellIn: Int) : Item("Sulfuras, Hand of Ragnaros", sellIn, 80) {
-    override fun updateSellIn() = Unit // does not expire
-    override fun updateQuality() = Unit // does not decay
+    override fun updateState() = Unit
 }
 
 class AgedBrie(sellIn: Int, quality: Int) : Item("Aged Brie", sellIn, quality) {
-    override fun updateQuality() {
-        incrementQualityButNoFurtherThanFifty()
+    override fun updateState() {
+        decrementSellIn()
+        incrementQuality()
         if (isExpired()) {
-            incrementQualityButNoFurtherThanFifty()
+            incrementQuality()
         }
     }
 }
@@ -29,40 +17,49 @@ class AgedBrie(sellIn: Int, quality: Int) : Item("Aged Brie", sellIn, quality) {
 class BackstagePass(sellIn: Int, quality: Int) :
     Item("Backstage passes to a TAFKAL80ETC concert", sellIn, quality) {
 
-    override fun updateQuality() {
+    override fun updateState() {
+        decrementSellIn()
+
         if (isExpired()) {
             quality = 0
             return
         }
 
-        incrementQualityButNoFurtherThanFifty()
+        incrementQuality()
         if (sellIn < 11) {
-            incrementQualityButNoFurtherThanFifty()
+            incrementQuality()
         }
         if (sellIn < 6) {
-            incrementQualityButNoFurtherThanFifty()
+            incrementQuality()
         }
     }
 }
 
 class DefaultItem(name: String, sellIn: Int, quality: Int) : Item(name, sellIn, quality) {
-    override fun updateQuality() {
-        decrementQualityButNoFurtherThanZero()
+    override fun updateState() {
+        decrementSellIn()
+        decrementQuality()
         if (isExpired()) {
-            decrementQualityButNoFurtherThanZero()
+            decrementQuality()
         }
     }
 }
 
-abstract class Item(override var name: String, override var sellIn: Int, override var quality: Int) : IItem {
+abstract class Item(var name: String, var sellIn: Int, var quality: Int) {
+    abstract fun updateState()
+    fun isExpired() = sellIn < 0
 
-    protected fun incrementQualityButNoFurtherThanFifty() {
+    protected fun decrementSellIn() {
+        sellIn -= 1
+    }
+
+    protected fun incrementQuality() {
         if (quality < 50) {
             quality += 1
         }
     }
 
-    protected fun decrementQualityButNoFurtherThanZero() {
+    protected fun decrementQuality() {
         if (quality > 0) {
             quality -= 1
         }

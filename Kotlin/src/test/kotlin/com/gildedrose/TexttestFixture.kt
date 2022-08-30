@@ -34,4 +34,4 @@ fun main(args: Array<String>) {
         app.updateQuality()
     }
 }
-private fun toCsv(item: IItem) = item.name + ", " + item.sellIn + ", " + item.quality
+private fun toCsv(item: Item) = item.name + ", " + item.sellIn + ", " + item.quality
